@@ -1,0 +1,16 @@
+---
+title: "My awesome blog"
+base_url: "http://localhost:8080/example"
+content:
+  - blog/what-is-markdown
+scripts:
+  - blogs
+  - echo
+  - get_page
+templates:
+  - main
+
+extra:
+  copyright: "Radu Matei, 2021"
+  github: radu-matei
+  twitter: matei_radu

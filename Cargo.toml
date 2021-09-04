@@ -1,0 +1,26 @@
+[package]
+name    = "bertrand"
+version = "0.1.0"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow                   = "1.0.43"
+console_error_panic_hook = "0.1"
+handlebars               = { version = "4.1", features = ["script_helper"] }
+http                     = "0.2"
+log                      = "0.4"
+pulldown-cmark           = { version = "0.8.0", default-features = false }
+rhai                     = { version = "1.0.3", features = ["sync", "serde", "wasm-bindgen"] }
+serde                    = { version = "1.0", features = ["derive"] }
+serde_json               = "1.0"
+serde_yaml               = "0.8"
+wasm-bindgen             = "^0.2"
+wasm-bindgen-futures     = "0.4"
+wasm-logger              = "0.2.0"
+web-sys                  = { version = "0.3", all-features = true }
+yew                      = "0.18"
+yew-router               = "0.15"
+yewtil                   = "0.4"

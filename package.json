@@ -1,0 +1,17 @@
+{
+  "name": "@engineerd/bertrand",
+  "version": "0.1.0",
+  "description": "A dynamic site generator that renders markdown",
+  "scripts": {
+    "build": "wasm-pack build --target web --dev && rollup ./main.js --format iife --file ./pkg/bundle.js",
+    "dev": "npm run build && http-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "http-server": "^13.0",
+    "rollup": "^2.56",
+    "wasm-pack": "^0.10"
+  },
+  "author": "",
+  "license": "ISC"
+}
