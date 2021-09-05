@@ -9,7 +9,7 @@ use std::{
     collections::{BTreeMap, HashMap},
     str::FromStr,
 };
-use yew::{utils, Html};
+use yew::utils;
 
 /// The symbol separating the frontmatter from content in pages.
 const DOC_SEPERATOR: &str = "\n---\n";

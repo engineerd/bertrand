@@ -8,7 +8,6 @@ use crate::{
     fetch::fetch_url,
     state::{Renderer, State},
 };
-use wasm_bindgen::JsCast;
 
 pub enum Message {
     Initialize,

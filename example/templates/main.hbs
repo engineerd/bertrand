@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <title>{{page.frontmatter.title}} | {{site.title}}</title>
 
@@ -20,9 +21,9 @@
             margin-top: 2em;
         }
     </style>
-  </head>
-  <body>
+</head>
 
+<body>
     <div class="main">
         <div class="col-md-8">
             <article class="blog-post">
@@ -30,11 +31,11 @@
                 <h1 class="blog-post-title border-bottom">{{title}}</h2>
                     <p class="blog-post-meta">{{date}} by {{author}}</p>
                     {{/with}}
-                    {{! Since this is HTML, we use the triple-curly }}
                     {{{page.body}}}
                     {{ echo "world" }}
             </article>
         </div><!-- end col -->
     </div>
-  </body>
+</body>
+
 </html>
