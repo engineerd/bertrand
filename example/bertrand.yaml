@@ -8,7 +8,9 @@ scripts:
   - echo
   - get_page
 templates:
+  - header
   - main
+  - footer
 
 extra:
   copyright: "Radu Matei, 2021"

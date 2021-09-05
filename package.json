@@ -6,8 +6,8 @@
     "build-optimized": "wasm-pack build --target web --no-typescript --release && wasm-opt pkg/bertrand_bg.wasm -Oz -o pkg/bertrand_bg.wasm",
     "build-dev": "wasm-pack build --target web --no-typescript --dev && wasm-opt pkg/bertrand_bg.wasm -Oz -o pkg/bertrand_bg.wasm",
     "bundle": "rollup ./main.js --format iife --file ./pkg/bundle.js --compact",
-    "dev": "npm run build-dev && npm run bundle && http-server",
-    "optimized": "npm run build-optimized && npm run bundle && http-server"
+    "dev": "npm run build-dev && npm run bundle && http-server -b -g",
+    "optimized": "npm run build-optimized && npm run bundle && http-server -b -g"
   },
   "devDependencies": {
     "http-server": "^13.0",

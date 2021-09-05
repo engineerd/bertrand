@@ -1,13 +1,11 @@
-use std::collections::HashMap;
-
-use web_sys::Node;
-use yew::{html, utils, virtual_dom::VNode, Component, ComponentLink, Html, ShouldRender};
-use yewtil::future::LinkFuture;
-
 use crate::{
     fetch::fetch_url,
     state::{Renderer, State},
 };
+use std::collections::HashMap;
+use web_sys::Node;
+use yew::{html, utils, virtual_dom::VNode, Component, ComponentLink, Html, ShouldRender};
+use yewtil::future::LinkFuture;
 
 pub enum Message {
     Initialize,
@@ -15,6 +13,7 @@ pub enum Message {
     SetInitializationState(State<Renderer>),
     RenderCurrentPage(Renderer),
 }
+
 #[derive(Clone, Default, yew::Properties)]
 pub struct Properties {}
 
@@ -130,6 +129,7 @@ impl Component for App {
                     .unwrap();
 
                 div.set_inner_html(c);
+                div.set_attribute("id", "bertrand").unwrap();
 
                 let node = Node::from(div);
                 let vnode = VNode::VRef(node);
