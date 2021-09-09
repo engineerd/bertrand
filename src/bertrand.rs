@@ -1,17 +1,19 @@
 use crate::{
     fetch::fetch_url,
-    state::{Renderer, State},
+    post::PostPage,
+    state::{AppState, State},
+    switch::{AppRoute, AppRouter},
 };
 use std::collections::HashMap;
-use web_sys::Node;
-use yew::{html, utils, virtual_dom::VNode, Component, ComponentLink, Html, ShouldRender};
+use yew::{html, Component, ComponentLink, Html, ShouldRender};
+use yew_router::{prelude::Route, switch::Permissive};
 use yewtil::future::LinkFuture;
 
 pub enum Message {
     Initialize,
     SetRenderState(State<String>),
-    SetInitializationState(State<Renderer>),
-    RenderCurrentPage(Renderer),
+    SetInitializationState(State<AppState>),
+    RenderCurrentPage(AppState),
 }
 
 #[derive(Clone, Default, yew::Properties)]
@@ -21,7 +23,7 @@ pub struct App {
     initialized: bool,
     content_cache: HashMap<String, String>,
     current_page: State<String>,
-    renderer: State<Renderer>,
+    state: State<AppState>,
     link: ComponentLink<Self>,
 }
 
@@ -41,7 +43,7 @@ impl Component for App {
             initialized,
             content_cache,
             current_page,
-            renderer: bertrand,
+            state: bertrand,
             link,
         }
     }
@@ -51,8 +53,8 @@ impl Component for App {
             Message::Initialize => {
                 self.initialized = true;
                 self.link.send_future(async move {
-                    match Renderer::new().await {
-                        Ok(r) => Message::RenderCurrentPage(r),
+                    match AppState::new().await {
+                        Ok(r) => Message::SetInitializationState(State::Success(r)),
                         Err(e) => {
                             log::error!("Error: {}", e);
                             Message::SetRenderState(State::Failed)
@@ -69,7 +71,7 @@ impl Component for App {
                 true
             }
             Message::SetInitializationState(b) => {
-                self.renderer = b;
+                self.state = b;
                 true
             }
             Message::RenderCurrentPage(r) => {
@@ -113,33 +115,43 @@ impl Component for App {
         // If this is the first page load, initialize the application state.
         // This is a costly operation, as it downloads all scripts and templates,
         // and we want to make sure it is only done once, when the app first loads.
+        //
+        // Ideally, we want to store all template assets in the local storage under
+        // a revision key, and retrieve them from there.
         if !self.initialized {
             self.link.send_message(Message::Initialize);
         }
 
-        match &self.current_page {
-            State::NotExecuting => html! { "Unknown error" },
-            State::Executing => html! { "Working..." },
+        match &self.state {
+            State::NotExecuting => html! {},
+            State::Executing => html! {},
+            State::Failed => html! { <> <div> {{ "Internal error..." }} </div> </>},
             State::Success(c) => {
-                let div = web_sys::window()
-                    .unwrap()
-                    .document()
-                    .unwrap()
-                    .create_element("html")
-                    .unwrap();
+                let state = c.clone();
+                html! {
+                    <>
+                    <main>
+                    <AppRouter
+                        render=AppRouter::render(move |switch: AppRoute| {
 
-                div.set_inner_html(c);
-                div.set_attribute("id", "bertrand").unwrap();
-
-                let node = Node::from(div);
-                let vnode = VNode::VRef(node);
-                vnode
+                            match switch {
+                                AppRoute::Post(page) => {
+                                    html! { <PostPage page=page state=state.clone() /> }
+                                },
+                                AppRoute::Home => html! { <PostPage page="index" state=state.clone() /> },
+                                AppRoute::PageNotFound(Permissive(_)) => {
+                                    html! { <PostPage page="404" state=state.clone() /> }
+                                }
+                            }
+                        })
+                        redirect=AppRouter::redirect(|route: Route| {
+                            AppRoute::PageNotFound(Permissive(Some(route.route)))
+                        })
+                    />
+                </main>
+                    </>
+                }
             }
-            State::Failed => html! { "Error" },
         }
     }
-}
-
-fn current_page() -> String {
-    utils::window().location().pathname().unwrap()
 }

@@ -14,7 +14,7 @@ use yew::utils;
 /// The symbol separating the frontmatter from content in pages.
 const DOC_SEPERATOR: &str = "\n---\n";
 /// The website configuration file.
-const CONFIG_FILE: &str = "example/bertrand.yaml";
+const CONFIG_FILE: &str = "bertrand.yaml";
 /// The default template to be used if none is supplied.
 const DEFAULT_TEMPLATE: &str = "main";
 
@@ -26,8 +26,6 @@ pub struct SiteInfo {
     pub title: String,
     /// List of scripts used to render the website.
     pub scripts: Vec<String>,
-    /// List of markdown documents that will appear in an "index" page (for blogs).
-    pub content: Vec<String>,
     /// List of templates used to render the website.
     pub templates: Vec<String>,
     /// The base URL of the website.
@@ -51,27 +49,50 @@ impl SiteInfo {
     }
 }
 
+impl PartialEq for SiteInfo {
+    fn eq(&self, other: &Self) -> bool {
+        self.title == other.title
+            && self.scripts == other.scripts
+            && self.templates == other.templates
+            && self.base_url == other.base_url
+            && self.logo == other.logo
+            && self.about == other.about
+            && self.extra == other.extra
+    }
+}
+
 /// Metadata about a page.
 /// It is contained in the markdown file of the page,
 /// separated by `DOC_SEPARATOR` (`\n---\n`).
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Frontmatter {
     /// The title of the document
     pub title: String,
     /// A short description of the document.
-    pub description: Option<String>,
+    pub description: String,
     /// The date of the document.
     pub date: String,
     /// The author of the document.
     pub author: String,
+    /// List of pages to be shown in an index page.
+    pub articles: Option<Vec<ArticleList>>,
     /// The template to be used. If None, the `main` template is used.
     pub template: Option<String>,
     /// A map of string/string pairs that are user-customizable.
     pub extra: Option<HashMap<String, String>>,
 }
 
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ArticleList {
+    pub title: String,
+    pub description: String,
+    pub date: String,
+    pub author: String,
+    pub route: String,
+}
+
 /// A page containing metadata and content.
-#[derive(Serialize)]
+#[derive(Debug, Serialize)]
 pub struct Content {
     pub frontmatter: Frontmatter,
     pub body: String,
@@ -92,6 +113,8 @@ impl Content {
 
 impl FromStr for Content {
     type Err = anyhow::Error;
+
+    /// Read the frontmatter and content body from the markdown file.
     fn from_str(full_document: &str) -> Result<Self, Self::Err> {
         let (yaml_text, body) = full_document
             .split_once(DOC_SEPERATOR)
@@ -133,16 +156,27 @@ impl<T> Default for State<T> {
 }
 
 #[derive(Clone, Debug, Default)]
-pub struct Renderer {
+pub struct AppState {
     pub info: SiteInfo,
     pub base_url: String,
     scripts: HashMap<String, String>,
     templates: HashMap<String, String>,
 }
 
-impl Renderer {
+impl PartialEq for AppState {
+    fn eq(&self, other: &Self) -> bool {
+        self.info == other.info
+            && self.base_url == other.base_url
+            && self.scripts == other.scripts
+            && self.templates == other.templates
+    }
+}
+
+impl Eq for AppState {}
+
+impl AppState {
     /// Create a new instance of the application state.
-    pub async fn new() -> Result<Renderer, BertrandError> {
+    pub async fn new() -> Result<AppState, BertrandError> {
         log::info!("Creating instance of Bertrand.");
         let base_url = utils::window().location().origin().unwrap();
         let info = SiteInfo::new(base_url.clone(), CONFIG_FILE.into()).await?;
@@ -154,6 +188,7 @@ impl Renderer {
             Some("rhai"),
         )
         .await?;
+
         let templates = get_data(
             info.base_url.clone() + "/templates",
             info.templates.clone(),
@@ -172,7 +207,7 @@ impl Renderer {
     /// Render a markdown page and return its HTML representation.
     pub fn render(&self, content: String) -> Result<String, BertrandError> {
         let content = Content::from_str(&content)?;
-        let info = &self.info.clone();
+        let info = &self.info;
 
         let tpl = content
             .frontmatter
@@ -186,10 +221,12 @@ impl Renderer {
             site: info.clone(),
         };
 
-        // This is a workaround for the lifetime parameter for the
-        // handlebars renderer.
-        // It means that for every rendered page we create a new instance
-        // of the renderer.
+        // TODO
+        //
+        // Because of the async closures Yew requires for futures,
+        // the easiest way for now is to just create the renderer
+        // on each render operation.
+        // This is not ideal, and this should be fixed in the future.
         let mut renderer = Handlebars::default();
         self.load(&mut renderer)?;
 

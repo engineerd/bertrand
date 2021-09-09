@@ -1,0 +1,30 @@
+{{> header }}
+
+<section class="section">
+
+    <body>
+        <div class="main">
+            <div class="col-md-8">
+                {{#if page.frontmatter.articles}}
+                {{#each page.frontmatter.articles as |a|}}
+
+                <article class="blog-post">
+                    <div class="subtitle is-6"> {{ a.date }}, by {{ a.author }}</div>
+                    <span class="brxsmall"></span>
+                    <a href="{{ site.base_url }}/{{ a.route }}">
+                        <h1 class="title">{{ a.title }}</h1>
+                    </a>
+                    <p> {{{ a.description }}} </p>
+
+                </article>
+
+                {{/each}}
+                {{/if}}
+
+            </div>
+        </div>
+    </body>
+
+</section>
+
+{{> footer }}

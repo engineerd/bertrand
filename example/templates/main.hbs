@@ -1,24 +1,21 @@
 {{> header }}
 
-<body>
+<section class="section">
 
-    <div class="main">
-        <div class="col-md-8">
-            <article class="blog-post">
-                {{ #with page.frontmatter }}
-                <h1 class="blog-post-title border-bottom">{{ title }}</h2>
-                    <p class="blog-post-meta">{{date}} by {{ author }}</p>
+    <body>
+        <div class="main">
+            <div class="col-md-8">
+                <article class="blog-post">
+                    {{ #with page.frontmatter }}
+                    <div class="subtitle is-6"> {{ date }}, by {{ author }}</div>
+                    <h1 class="title">{{ title }}</h1>
                     {{/with}}
                     {{{ page.body }}}
-            </article>
+                </article>
+            </div>
         </div>
-    </div>
-    <script>
-    // alert("ugh");
-    hljs.highlightAll();
-</script>
+    </body>
 
-</body>
+</section>
 
 {{> footer }}
-

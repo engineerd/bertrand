@@ -1,18 +1,18 @@
 ---
-title: "My awesome blog"
-base_url: "http://localhost:8080/example"
+title: "Bertrand"
+base_url: "http://localhost:8080"
 content:
   - blog/what-is-markdown
+  - blog/glottal
 scripts:
-  - blogs
   - echo
-  - get_page
 templates:
   - header
   - main
   - footer
+  - index
+  - 404
 
 extra:
-  copyright: "Radu Matei, 2021"
-  github: radu-matei
-  twitter: matei_radu
+  copyright: "Engineerd, 2021"
+  github: "engineerd"

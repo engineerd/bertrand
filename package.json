@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "description": "A dynamic site generator that renders markdown",
   "scripts": {
-    "build-optimized": "wasm-pack build --target web --no-typescript --release && wasm-opt pkg/bertrand_bg.wasm -Oz -o pkg/bertrand_bg.wasm",
-    "build-dev": "wasm-pack build --target web --no-typescript --dev && wasm-opt pkg/bertrand_bg.wasm -Oz -o pkg/bertrand_bg.wasm",
-    "bundle": "rollup ./main.js --format iife --file ./pkg/bundle.js --compact",
-    "dev": "npm run build-dev && npm run bundle && http-server -b -g",
-    "optimized": "npm run build-optimized && npm run bundle && http-server -b -g"
+    "build-optimized": "wasm-pack build --out-dir example/pkg --target web --no-typescript --release",
+    "build-dev": "wasm-pack build --out-dir example/pkg --target web --no-typescript --dev",
+    "opt": "wasm-opt example/pkg/bertrand_bg.wasm -Oz -o example/pkg/bertrand_bg.wasm",
+    "bundle": "rollup example/main.js --format iife --file example/pkg/bundle.js --compact",
+    "dev": "npm run build-dev && && npm run opt && npm run bundle && http-server-spa example",
+    "optimized": "npm run build-optimized && npm run opt && npm run bundle && http-server-spa example "
   },
   "devDependencies": {
     "http-server": "^13.0",

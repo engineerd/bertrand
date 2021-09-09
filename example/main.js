@@ -6,10 +6,15 @@ async function main() {
 }
 main();
 
-// After the page was rendered, execute the scripts.
-// TODO
-// For now, this doesn't make the <script src=""/> tags usable
-// from later scripts.
+// The Wasm module injects an element with `id=bertrand`
+// with the rendered page.
+//
+// Because this is dynamically added, and the page might contain
+// scripts, we want to load them as scripts and execute them.
+// TODO:
+// This loads scripts from source (`<script src=""/>`), but
+// they are unusable from later scripts. Until this is fixed,
+// source scripts should be placed in the main `index.html`.
 document.addEventListener(
   "DOMNodeInserted",
   function (e) {
@@ -22,7 +27,7 @@ document.addEventListener(
 
 function nodeScriptReplace(node) {
   if (node.tagName === "SCRIPT") {
-    node.parentNode.replaceChild(nodeScriptClone(node), node);
+    node.parentNode.replaceChild(cloneAsScript(node), node);
   } else {
     var i = -1,
       children = node.childNodes;
@@ -34,7 +39,7 @@ function nodeScriptReplace(node) {
   return node;
 }
 
-function nodeScriptClone(node) {
+function cloneAsScript(node) {
   var script = document.createElement("script");
   script.text = node.innerHTML;
 

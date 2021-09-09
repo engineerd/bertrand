@@ -1,10 +1,13 @@
 <div class="container has-text-centered">
+    <br />
+    <br />
     <footer>
         {{#if site.extra.copyright }}
-        <p>&copy; {{ site.extra.copyright }}</p>
+        <a href="https://github.com/{{ site.extra.github }}">
+            <p>&copy; {{ site.extra.copyright }}</p>
+        </a>
         {{/if}}
     </footer>
 </div>
 
 </html>
-

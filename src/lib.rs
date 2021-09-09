@@ -1,12 +1,13 @@
 pub mod bertrand;
 pub mod error;
 pub mod fetch;
+pub mod post;
 pub mod state;
+pub mod switch;
 
 use bertrand::App;
 use wasm_bindgen::prelude::*;
 
-// Use `wee_alloc` as the global allocator.
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
