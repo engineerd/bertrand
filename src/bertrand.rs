@@ -6,7 +6,7 @@ use crate::{
 };
 use std::collections::HashMap;
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
-use yew_router::{prelude::Route, switch::Permissive};
+use yew_router::prelude::Route;
 use yewtil::future::LinkFuture;
 
 pub enum Message {
@@ -139,13 +139,13 @@ impl Component for App {
                                     html! { <PostPage page=page state=state.clone() /> }
                                 },
                                 AppRoute::Home => html! { <PostPage page="index" state=state.clone() /> },
-                                AppRoute::PageNotFound(Permissive(_)) => {
+                                AppRoute::PageNotFound => {
                                     html! { <PostPage page="404" state=state.clone() /> }
                                 }
                             }
                         })
-                        redirect=AppRouter::redirect(|route: Route| {
-                            AppRoute::PageNotFound(Permissive(Some(route.route)))
+                        redirect=AppRouter::redirect(|_route: Route| {
+                            AppRoute::PageNotFound
                         })
                     />
                 </main>

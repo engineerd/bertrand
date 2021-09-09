@@ -67,13 +67,13 @@ impl PartialEq for SiteInfo {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Frontmatter {
     /// The title of the document
-    pub title: String,
+    pub title: Option<String>,
     /// A short description of the document.
-    pub description: String,
+    pub description: Option<String>,
     /// The date of the document.
-    pub date: String,
+    pub date: Option<String>,
     /// The author of the document.
-    pub author: String,
+    pub author: Option<String>,
     /// List of pages to be shown in an index page.
     pub articles: Option<Vec<ArticleList>>,
     /// The template to be used. If None, the `main` template is used.

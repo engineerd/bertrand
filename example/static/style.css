@@ -1707,7 +1707,7 @@ block:not(:last-child),
 
 .brxsmall {
   display: block;
-  margin-bottom: -0.9em;
+  margin-bottom: -1.3em;
 }
 
 /**

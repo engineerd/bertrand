@@ -1,9 +1,5 @@
 ---
 template: "index"
-title: "Bertrand"
-author: ""
-date: ""
-description: ""
 
 articles:
   - title: "What is markdown?"
@@ -18,7 +14,6 @@ articles:
       eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
       voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam
       corporis suscipit laboriosam."
-
     date: "September 8th 2021"
     author: "Radu Matei"
     route: "what-is-markdown"

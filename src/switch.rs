@@ -1,6 +1,4 @@
-use yew_router::{
-    components::RouterAnchor, prelude::Route, router::Router, switch::Permissive, Switch,
-};
+use yew_router::{components::RouterAnchor, prelude::Route, router::Router, Switch};
 
 #[derive(Clone, Debug, Switch)]
 pub enum AppRoute {
@@ -9,7 +7,7 @@ pub enum AppRoute {
     #[to = "/{page}"]
     Post(String),
     #[to = "/page-not-found"]
-    PageNotFound(Permissive<String>),
+    PageNotFound,
     #[to = "/!"]
     Home,
 }
