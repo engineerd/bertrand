@@ -12,6 +12,8 @@ markdown.
 
 [Read an introduction about Bertrand here](./example/content/introducing-bertrand.md).
 
+![](example/static/images/bertrand-screenshot.png)
+
 ### Warning
 
 This project is still a work in progress, and highly unstable. The authors do

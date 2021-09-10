@@ -189,6 +189,12 @@ A: Probably not. It is a very early and experimental project, and should not be
 used for anything serious, as it has a lot of limitations and bugs (see the code
 base or issue list).
 
+Q: What about images?
+
+A: Because we want both Bertrand and all other markdown renderers to display
+your content in the same way, images are always loaded from the same relative
+path, so just include them in the same way you would in a regular markdown file.
+
 Q: What about users who disabled JavaScript, or don't have WebAssembly enabled?
 
 A: They should still be able to read your content, as it is written in plain
