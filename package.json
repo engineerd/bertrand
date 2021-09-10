@@ -11,7 +11,7 @@
     "optimized": "npm run build-optimized && npm run opt && npm run bundle && http-server-spa example "
   },
   "devDependencies": {
-    "http-server": "^13.0",
+    "http-server-spa": "^1.3.0",
     "rollup": "^2.56",
     "uglify-js": "^3.14.1",
     "wasm-pack": "^0.10"

@@ -1,9 +1,5 @@
----
-title: "Bertrand"
-base_url: "http://localhost:8080"
-content:
-  - blog/what-is-markdown
-  - blog/glottal
+title: Bertrand
+base_url: http://localhost:8080
 scripts:
   - echo
 templates:
@@ -15,4 +11,4 @@ templates:
 
 extra:
   copyright: "Engineerd, 2021"
-  github: "engineerd"
+  github: engineerd

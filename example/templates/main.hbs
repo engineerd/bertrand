@@ -6,10 +6,8 @@
         <div class="main">
             <div class="col-md-8">
                 <article class="blog-post">
-                    {{ #with page.frontmatter }}
-                    <div class="subtitle is-6"> {{ date }}, by {{ author }}</div>
-                    <h1 class="title">{{ title }}</h1>
-                    {{/with}}
+                    <div class="subtitle is-6"> {{ page.frontmatter.date }}, by {{ page.frontmatter.author }}</div>
+                    <h1 class="title">{{ page.frontmatter.title }}</h1>
                     {{{ page.body }}}
                 </article>
             </div>
