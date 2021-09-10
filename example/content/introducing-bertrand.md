@@ -21,7 +21,7 @@ dynamically renders web pages just in time in the user's browser using
 WebAssembly. The main benefit is not being required to manage two sets of files,
 as is the case for static site generators -- your markdown content and templates
 (and optionally scripts) _are_ the website, and when a request for your page
-comes itn, Bertrand uses the markdown and templates to output an HTML
+comes in, Bertrand uses the markdown and templates to output an HTML
 representation of your page.
 
 This started mostly as a case of "huh, it would be interesting to do this
